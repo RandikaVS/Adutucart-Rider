@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "737839098386",
+    "firebase_url": "https://adutucart-8d7a5-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "adutucart-8d7a5",
+    "storage_bucket": "adutucart-8d7a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737839098386:android:ea26b2868e3ba5854286cb",
+        "android_client_info": {
+          "package_name": "com.example.adutucart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737839098386-scj1beusfu0c27eev12j3n9uk31th8qe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfHRvAoJ21kfCyzwwDlgNAIMUeZY1eFQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737839098386-scj1beusfu0c27eev12j3n9uk31th8qe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737839098386:android:20e229edfffda4b74286cb",
+        "android_client_info": {
+          "package_name": "com.example.adutucartrider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737839098386-scj1beusfu0c27eev12j3n9uk31th8qe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfHRvAoJ21kfCyzwwDlgNAIMUeZY1eFQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737839098386-scj1beusfu0c27eev12j3n9uk31th8qe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Adutucart Rider</string>
+    <string name="register"><u>Register</u></string>
+    <string name="location"><u>Location</u></string>
+</resources>

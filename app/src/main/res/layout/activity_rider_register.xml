@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_color"
+    tools:context=".RiderRegister">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/back_arrow_register"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/back_arrow"
+                android:layout_marginTop="16dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="REGISTER"
+                android:textSize="35sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="16dp"
+                android:shadowColor="#D3B7A6"
+                android:shadowDx="7"
+                android:layout_marginTop="10dp"
+                android:shadowDy="7"
+                android:shadowRadius="10"
+                />
+
+            <EditText
+                android:id="@+id/rider_register_name"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="Name"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="40dp"/>
+
+            <EditText
+                android:id="@+id/rider_register_phone"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="Phone"
+                android:inputType="phone"
+                android:layout_marginTop="20dp"/>
+
+            <EditText
+                android:id="@+id/rider_register_email"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="20dp"/>
+            <EditText
+                android:id="@+id/rider_register_password"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:layout_marginTop="20dp"/>
+
+            <ProgressBar
+                android:id="@+id/register_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/rider_register"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_corner"
+                android:text="Register"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
