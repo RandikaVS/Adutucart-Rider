@@ -11,11 +11,13 @@ public class PendingOrderList {
     private String subTotal;
     private String paymentType;
     private String status;
+
+    private String token;
     private List<PendingOrders> pendingOrders;
 
     public PendingOrderList(){}
 
-    public PendingOrderList(String userId,List<PendingOrders> pendingOrders,String address,String orderKey,String subTotal,String paymentType,String status){
+    public PendingOrderList(String userId,List<PendingOrders> pendingOrders,String address,String orderKey,String subTotal,String paymentType,String status,String token){
         this.userId = userId;
         this.orderKey = orderKey;
         this.pendingOrders = pendingOrders;
@@ -23,6 +25,15 @@ public class PendingOrderList {
         this.subTotal = subTotal;
         this.paymentType = paymentType;
         this.status = status;
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getStatus() {

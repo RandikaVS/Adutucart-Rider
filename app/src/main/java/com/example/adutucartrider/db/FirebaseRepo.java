@@ -84,6 +84,7 @@ public class FirebaseRepo {
                                 pendingOrderList.setPaymentType(ds2.child("paymentType").getValue(String.class));
                                 pendingOrderList.setStatus(ds2.child("status").getValue(String.class));
                                 pendingOrderList.setSubTotal(ds2.child("subTotal").getValue(String.class));
+                                pendingOrderList.setToken(ds2.child("token").getValue(String.class));
                                 pendingOrderList.setOrderKey((ds2.getKey()));
                                 pendingOrderList.setUserId(ds.getKey());
 

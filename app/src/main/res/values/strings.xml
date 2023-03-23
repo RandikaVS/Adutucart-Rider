@@ -2,4 +2,11 @@
     <string name="app_name">Adutucart Rider</string>
     <string name="register"><u>Register</u></string>
     <string name="location"><u>Location</u></string>
+    <string name="wait_time"><u>Enter expect delivery time</u></string>
+    <string name="order_id"><u>Order Id</u></string>
+    <string name="order_address"><u>Order Addrss</u></string>
+    <string name="payment_type"><u>Payment Type</u></string>
+    <string name="order_contact"><u>Customer Contact</u></string>
+    <string name="order_status"><u>Order Status</u></string>
+    <string name="order_total"><u>Order Total</u></string>
 </resources>

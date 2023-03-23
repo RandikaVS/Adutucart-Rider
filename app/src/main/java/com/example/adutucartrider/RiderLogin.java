@@ -1,5 +1,7 @@
 package com.example.adutucartrider;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -8,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.regex.Pattern;
 
@@ -30,6 +34,8 @@ public class RiderLogin extends AppCompatActivity {
     private EditText Email,Password;
     private AppCompatButton Login;
     private TextView ToRegister;
+
+    private String token="null";
 
     SharedPreferences sharedpreferences;
 
@@ -51,6 +57,24 @@ public class RiderLogin extends AppCompatActivity {
                 startActivity(new Intent(RiderLogin.this,RiderRegister.class));
             }
         });
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        token = task.getResult();
+
+                        System.out.println("token ################################# "+token);
+
+
+                    }
+                });
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +115,7 @@ public class RiderLogin extends AppCompatActivity {
                                 sharedpreferences = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
 
+                                editor.putString("token",token);
                                 editor.putString("emailKey", email);
                                 editor.putString("passwordKey", password);
 

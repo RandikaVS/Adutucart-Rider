@@ -2,9 +2,13 @@ package com.example.adutucartrider.adapters;
 
 import static android.os.ParcelFileDescriptor.MODE_APPEND;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.adutucartrider.R;
 import com.example.adutucartrider.WrapContentLinearLayoutManager;
 import com.example.adutucartrider.models.PendingOrderList;
+import com.example.adutucartrider.services.sendNotification;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -31,7 +36,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,14 +48,44 @@ public class PendingOrdersViewAdapter extends RecyclerView.Adapter<PendingOrders
 
     private DatabaseReference databaseReference;
 
-    String riderName,riderMobile;
+    private Context context;
+
+    String riderName,riderMobile,token;
 
 
 
-    public void setOrderList(List<PendingOrderList> pendingOrderListList,String riderName,String riderMobile){
+    public void setOrderList(List<PendingOrderList> pendingOrderListList,String riderName,String riderMobile,Context context){
         this.pendingOrderLists = pendingOrderListList;
         this.riderName = riderName;
         this.riderMobile = riderMobile;
+        this.context = context;
+
+        SharedPreferences sharedpreferences;
+        token="null";
+
+        sharedpreferences = context.getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
+
+        if(sharedpreferences.getString("token", "")!=null){
+            token = sharedpreferences.getString("token", "");
+        }
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        //Get new FCM registration token
+                        token = task.getResult();
+
+                        System.out.println("token ################################# "+token);
+
+
+                    }
+                });
 
     }
 
@@ -64,6 +101,9 @@ public class PendingOrdersViewAdapter extends RecyclerView.Adapter<PendingOrders
     @Override
     public void onBindViewHolder(@NonNull PendingOrdersViewAdapter.taskViewHolder holder, int position) {
 
+
+        sendNotification notification = new sendNotification();
+
         PendingOrderList pendingOrderList = pendingOrderLists.get(position);
         holder.PendingOrderId.setText(pendingOrderList.getOrderKey());
         holder.PendingOrderAddress.setText(pendingOrderList.getAddress());
@@ -72,6 +112,7 @@ public class PendingOrdersViewAdapter extends RecyclerView.Adapter<PendingOrders
         holder.PendingOrderTotal.setText(pendingOrderList.getSubTotal());
 
         holder.PendingOrdersCard.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(View v) {
                 holder.OrderDetails.setVisibility(View.VISIBLE);
@@ -96,77 +137,126 @@ public class PendingOrdersViewAdapter extends RecyclerView.Adapter<PendingOrders
             public void onClick(View v) {
 
 
+                databaseReference = FirebaseDatabase.getInstance().getReference("RiderPickups").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                databaseReference.orderByChild("status").equalTo("ToShip").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()) {
+                            Toast.makeText(v.getContext(), "Please complete current order !!!", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
 
-                // Set the message show for the Alert time
-                builder.setMessage("Do you want to pickup order ?");
+                            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 
-                // Set Alert Title
-                builder.setTitle("Alert !");
+                            // Set the message show for the Alert time
+                            builder.setMessage("Do you want to pickup order ?");
 
-                // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
-                builder.setCancelable(false);
+                            // Set Alert Title
+                            builder.setTitle("Alert !");
 
-                // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
-                builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
+                            builder.setCancelable(false);
+
+                            // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
+                            builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
 
 
-                            databaseReference = FirebaseDatabase.getInstance().getReference("RiderPickups").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push();
-                            String riderPickupKey = databaseReference.getKey();
+                                        databaseReference = FirebaseDatabase.getInstance().getReference("RiderPickups").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push();
 
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("userId", pendingOrderList.getUserId());
-                            hashMap.put("orderId",pendingOrderList.getOrderKey());
-                            hashMap.put("orderAddress",pendingOrderList.getAddress());
-                            hashMap.put("status","Pending");
+                                        String riderPickupKey = databaseReference.getKey();
 
-                            databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(v.getContext(), "Order Taken", Toast.LENGTH_SHORT).show();
+                                        HashMap<String, Object> hashMap = new HashMap<>();
+                                        hashMap.put("userId", pendingOrderList.getUserId());
+                                        hashMap.put("orderId",pendingOrderList.getOrderKey());
+                                        hashMap.put("orderAddress",pendingOrderList.getAddress());
+                                        hashMap.put("status","ToShip");
+                                        hashMap.put("waitingTime"," ");
+                                        hashMap.put("token",token);
 
-                                    databaseReference = FirebaseDatabase.getInstance().getReference("Orders");
-                                    HashMap<String, Object> hashMap = new HashMap<>();
-                                    hashMap.put("status", "ToShip");
-                                    hashMap.put("riderName",riderName);
-                                    hashMap.put("riderMobile",riderMobile);
-                                    hashMap.put("riderId",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                    hashMap.put("riderPickupKey",riderPickupKey);
 
-                                    databaseReference.child(pendingOrderList.getUserId()).child(pendingOrderList.getOrderKey()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            notifyDataSetChanged();
-                                            Toast.makeText(v.getContext(), "Order status updated", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(v.getContext(), "Failed to update order status", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(v.getContext(), "Order Taken failed", Toast.LENGTH_SHORT).show();
+                                        databaseReference.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @SuppressLint("NotifyDataSetChanged")
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Toast.makeText(v.getContext(), "Order Taken", Toast.LENGTH_SHORT).show();
+                                                notifyDataSetChanged();
 
-                                }
+                                                try {
+                                                    notification.sendNotificationToCustomer(pendingOrderList.getOrderKey(),pendingOrderList.getToken());
+                                                } catch (IOException e) {
+                                                    throw new RuntimeException(e);
+                                                }
+
+                                                databaseReference = FirebaseDatabase.getInstance().getReference("Orders");
+                                                HashMap<String, Object> hashMap = new HashMap<>();
+                                                hashMap.put("waitingTime"," ");
+                                                hashMap.put("status", "ToShip");
+                                                hashMap.put("riderName",riderName);
+                                                hashMap.put("riderMobile",riderMobile);
+                                                hashMap.put("riderId",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                                hashMap.put("riderPickupKey",riderPickupKey);
+
+                                                databaseReference.child(pendingOrderList.getUserId()).child(pendingOrderList.getOrderKey()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @SuppressLint("NotifyDataSetChanged")
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if(task.isSuccessful()) {
+                                                            notifyDataSetChanged();
+                                                            try {
+                                                                notifyDataSetChanged();
+                                                                notification.sendNotificationToRider(riderPickupKey,token);
+                                                                notification.sendNotificationToChannel(pendingOrderList.getOrderKey(),"riderPickup");
+                                                            } catch (IOException e) {
+                                                                throw new RuntimeException(e);
+                                                            }
+
+                                                            Toast.makeText(v.getContext(), "Order status updated", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                        else{
+                                                            Toast.makeText(v.getContext(), "Failed to update order status", Toast.LENGTH_SHORT).show();
+                                                        }
+
+
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(v.getContext(), "Failed to update order db error", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(v.getContext(), "Order Taken failed", Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        });
+
                             });
 
+                            // Set the Negative button with No name Lambda OnClickListener method is use of DialogInterface interface.
+                            builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
+                                // If user click no then dialog box is canceled.
+                                dialog.cancel();
+                            });
+
+                            // Create the Alert dialog
+                            AlertDialog alertDialog = builder.create();
+                            // Show the Alert Dialog box
+                            alertDialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(v.getContext(), "System error !!!", Toast.LENGTH_SHORT).show();
+                    }
                 });
 
-                // Set the Negative button with No name Lambda OnClickListener method is use of DialogInterface interface.
-                builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
-                    // If user click no then dialog box is canceled.
-                    dialog.cancel();
-                });
 
-                // Create the Alert dialog
-                AlertDialog alertDialog = builder.create();
-                // Show the Alert Dialog box
-                alertDialog.show();
+
             }
 
 

@@ -11,14 +11,49 @@ public class PickupOrderList {
 
     private String status;
 
+    private String waitingTime;
+    private String token;
+
+    private String evidence;
 
     public PickupOrderList(){}
 
-    public PickupOrderList(String userId,String address,String orderKey,String status){
+    public PickupOrderList(String userId,String orderAddress,String orderId,String status,String waitingTime,String token,String evidence){
         this.userId = userId;
-        this.orderId = orderKey;
-        this.orderAddress = address;
+        this.orderId = orderId;
+        this.orderAddress = orderAddress;
         this.status = status;
+        this.waitingTime = waitingTime;
+        this.token = token;
+        this.evidence = evidence;
+    }
+
+    public String getEvidence() {
+        return evidence;
+    }
+
+    public void setEvidence(String evidence) {
+        this.evidence = evidence;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getWaitingTime() {
+        return waitingTime;
+    }
+
+    public void setOrderAddress(String orderAddress) {
+        this.orderAddress = orderAddress;
+    }
+
+    public void setWaitingTime(String waitingTime) {
+        this.waitingTime = waitingTime;
     }
 
     public String getStatus() {
@@ -29,12 +64,12 @@ public class PickupOrderList {
         this.status = status;
     }
 
-    public String getOrderKey() {
-        return orderId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
-    public void setOrderKey(String orderId) {
-        this.orderId = orderId;
+    public String getOrderId() {
+        return orderId;
     }
 
     public String getAddress() {
@@ -43,6 +78,10 @@ public class PickupOrderList {
 
     public void setAddress(String orderAddress) {
         this.orderAddress = orderAddress;
+    }
+
+    public String getOrderAddress() {
+        return orderAddress;
     }
 
     public void setUserId(String userId) {

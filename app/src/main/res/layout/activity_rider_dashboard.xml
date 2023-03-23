@@ -8,6 +8,33 @@
     android:background="@color/background_color"
     tools:context=".RiderDashboard">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/bell_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/notification"
+            android:layout_marginRight="30dp"
+            android:layout_gravity="center"/>
+
+
+            <ImageView
+                android:id="@+id/map_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/location"/>
+
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +44,7 @@
 
 
         <LinearLayout
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -25,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/rider_bike"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,19 +64,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:layout_marginLeft="20dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/notification"
-                android:layout_gravity="right"/>
 
             <LinearLayout
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -70,7 +94,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -93,27 +117,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/location"/>
-
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="70dp"
-                android:layout_height="30dp"
-                android:text="@string/location"
-                android:textSize="15sp"
-                android:layout_gravity="center"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 
@@ -147,6 +151,47 @@
                 android:layout_height="1dp"
                 android:background="@color/black"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center"
+                android:text="Order Id"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="80dp"
+                android:layout_gravity="center"
+                android:text="Evidence"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="85dp"
+                android:layout_gravity="right"
+                android:text="Waiting Time"/>
+
+            </LinearLayout>
+
+
+            <ProgressBar
+                android:id="@+id/pickup_progress"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pickup_orders_rv"
@@ -195,6 +240,7 @@
         android:layout_height="wrap_content"/>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/logout_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_corner"

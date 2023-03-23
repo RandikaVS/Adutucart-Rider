@@ -43,7 +43,7 @@ public class PendingOrderDetailsViewAdapter extends RecyclerView.Adapter<Pending
 
         holder.ProductId.setText(pendingOrders.getProductId());
         holder.ProductName.setText(pendingOrders.getProductName());
-        holder.ProductQty.setText(pendingOrders.getUserId());
+        holder.ProductQty.setText(pendingOrders.getQty());
 
         Glide.with(holder.itemView).load(pendingOrders.getProductImage()).placeholder(R.drawable.add_image).into(holder.ProductImage);
 
