@@ -27,11 +27,10 @@ public class pushNotificationService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        String title="",text="";
-        if(remoteMessage.getNotification()!=null) {
-            title = remoteMessage.getNotification().getTitle();
-            text = remoteMessage.getNotification().getBody();
-        }
+        String title="Notification",text="";
+
+        title = remoteMessage.getData().get("title");
+        text = remoteMessage.getData().get("message");
 
         sendNotification(title,pushNotificationService.this,text);
 
@@ -48,8 +47,8 @@ public class pushNotificationService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.add_image)
                 .setNumber(1)
                 .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-                .setContentTitle("Order Pickup Alert "+title)
-                .setContentText("Add Waiting time " +text)
+                .setContentTitle(title)
+                .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setAutoCancel(true);

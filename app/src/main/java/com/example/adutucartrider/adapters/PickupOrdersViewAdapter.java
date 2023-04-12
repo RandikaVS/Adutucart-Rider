@@ -93,7 +93,7 @@ public class PickupOrdersViewAdapter extends FirebaseRecyclerAdapter<PickupOrder
                 @Override
                 public void onClick(View v) {
 
-                    ((RiderDashboard) context).addEvidence(position, getRef(position).getKey());
+                    //((RiderDashboard) context).addEvidence(position, getRef(position).getKey());
                     notifyDataSetChanged();
                     //holder.Evidence.setImageURI(imageUri);
                 }

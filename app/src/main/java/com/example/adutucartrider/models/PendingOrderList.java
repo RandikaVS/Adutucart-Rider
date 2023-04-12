@@ -4,6 +4,8 @@ import java.util.List;
 
 public class PendingOrderList {
 
+
+
     private String userId;
     private String address;
 
@@ -12,12 +14,20 @@ public class PendingOrderList {
     private String paymentType;
     private String status;
 
+    private String riderId;
+    private String riderMobile;
+    private String riderName;
+    private String waitingTime;
     private String token;
+
+    private String evidence;
     private List<PendingOrders> pendingOrders;
 
     public PendingOrderList(){}
 
-    public PendingOrderList(String userId,List<PendingOrders> pendingOrders,String address,String orderKey,String subTotal,String paymentType,String status,String token){
+    public PendingOrderList(String userId,List<PendingOrders> pendingOrders,String address,
+                            String orderKey,String subTotal,String paymentType,String status,
+                            String token,String riderId,String riderMobile,String riderName,String waitingTime,String evidence){
         this.userId = userId;
         this.orderKey = orderKey;
         this.pendingOrders = pendingOrders;
@@ -26,6 +36,51 @@ public class PendingOrderList {
         this.paymentType = paymentType;
         this.status = status;
         this.token = token;
+        this.riderId = riderId;
+        this.riderMobile = riderMobile;
+        this.riderName = riderName;
+        this.waitingTime = waitingTime;
+        this.evidence = evidence;
+    }
+
+    public String getEvidence() {
+        return evidence;
+    }
+
+    public void setEvidence(String evidence) {
+        this.evidence = evidence;
+    }
+
+    public String getRiderName() {
+        return riderName;
+    }
+
+    public void setRiderName(String riderName) {
+        this.riderName = riderName;
+    }
+
+    public String getWaitingTime() {
+        return waitingTime;
+    }
+
+    public String getRiderId() {
+        return riderId;
+    }
+
+    public String getRiderMobile() {
+        return riderMobile;
+    }
+
+    public void setWaitingTime(String waitingTime) {
+        this.waitingTime = waitingTime;
+    }
+
+    public void setRiderId(String riderId) {
+        this.riderId = riderId;
+    }
+
+    public void setRiderMobile(String riderMobile) {
+        this.riderMobile = riderMobile;
     }
 
     public String getToken() {

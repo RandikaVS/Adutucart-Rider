@@ -121,6 +121,11 @@
 
     </LinearLayout>
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -193,10 +198,79 @@
                 android:visibility="gone"
                 android:layout_height="wrap_content"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pickup_orders_rv"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"/>
+            <TextView
+                android:id="@+id/no_pickups"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Pickups"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                android:textStyle="bold|italic"/>
+
+            <LinearLayout
+                android:id="@+id/pickup_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/pickup_order_id"
+                    android:layout_width="100dp"
+                    android:maxWidth="100dp"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="#123456"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="120dp"
+                    android:background="@color/black"/>
+
+                <ImageView
+                    android:id="@+id/pickup_add_evidence"
+                    android:layout_width="180dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/add_image"
+                    android:layout_gravity="center_vertical|center_horizontal"/>
+                <ProgressBar
+                    android:id="@+id/evidence_progress_bar"
+                    android:layout_width="180dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="120dp"
+                    android:background="@color/black"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/pickup_waiting_time"
+                        android:padding="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/blue"
+                        android:text="@string/wait_time"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/pickup_orders_rv"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="400dp"/>-->
 
             <View
                 android:layout_marginTop="5dp"
@@ -254,6 +328,8 @@
 
 
     </ScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>

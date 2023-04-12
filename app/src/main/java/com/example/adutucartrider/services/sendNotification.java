@@ -39,7 +39,7 @@ public class sendNotification {
 
     }
 
-    public void sendNotificationToChannel(String orderKey,String channelName) throws IOException {
+    public void sendNotificationToChannel(String orderKey,String riderName,String channelName) throws IOException {
        // httpRequestClientAdmin(orderKey,channelName);
 
     }

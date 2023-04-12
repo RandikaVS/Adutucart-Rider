@@ -2,15 +2,24 @@ package com.example.adutucartrider.models;
 
 public class Rider {
 
-    private String name,email,phone,password;
+    private String name,email,phone,password,pending;
 
     public Rider(){}
 
-    public Rider(String name,String email,String phone,String password){
+    public Rider(String name,String email,String phone,String password,String pending){
         this.name = name;
         this.email = email;
         this.phone =phone;
         this.password = password;
+        this.pending = pending;
+    }
+
+    public String getPending() {
+        return pending;
+    }
+
+    public void setPending(String pending) {
+        this.pending = pending;
     }
 
     public String getPassword() {

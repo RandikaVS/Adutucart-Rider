@@ -7,6 +7,8 @@ public class PickupOrderList {
     private String userId;
     private String orderAddress;
 
+    private String paymentType;
+
     private String orderId;
 
     private String status;
@@ -14,11 +16,16 @@ public class PickupOrderList {
     private String waitingTime;
     private String token;
 
+    private String total;
+
+    private String riderId;
+
     private String evidence;
 
     public PickupOrderList(){}
 
-    public PickupOrderList(String userId,String orderAddress,String orderId,String status,String waitingTime,String token,String evidence){
+    public PickupOrderList(String riderId,String userId,String orderAddress,String orderId,
+                           String status,String waitingTime,String token,String evidence,String paymentType,String total){
         this.userId = userId;
         this.orderId = orderId;
         this.orderAddress = orderAddress;
@@ -26,6 +33,33 @@ public class PickupOrderList {
         this.waitingTime = waitingTime;
         this.token = token;
         this.evidence = evidence;
+        this.riderId = riderId;
+        this.paymentType = paymentType;
+        this.total = total;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getRiderId() {
+        return riderId;
+    }
+
+    public void setRiderId(String riderId) {
+        this.riderId = riderId;
     }
 
     public String getEvidence() {

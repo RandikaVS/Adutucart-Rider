@@ -87,7 +87,7 @@
             android:id="@+id/pending_order_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Pending"
+            android:hint=""
             android:textStyle="italic"/>
 
     </LinearLayout>

@@ -27,29 +27,56 @@ public class FirebaseRepo {
     }
 
     public void getAllOrderData(){
-        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                List<PickupOrderList> pickupOrderLists = new ArrayList<>();
-//
-//                for(DataSnapshot ds :snapshot.getChildren()){
-//                    PickupOrderList pickupOrderList = new PickupOrderList();
-//                    pickupOrderList.setAddress(ds.child("address").getValue(String.class));
-////
-//                    GenericTypeIndicator<ArrayList<PickupOrderItems>> genericTypeIndicator =
-//                            new GenericTypeIndicator<ArrayList<PickupOrderItems>>() {};
-//                    pickupOrderList.setPickupOrderItems(ds.child("items").getValue(genericTypeIndicator));
-//
-//                    pickupOrderList.setPaymentType(ds.child("paymentType").getValue(String.class));
-//                    pickupOrderList.setStatus(ds.child("status").getValue(String.class));
-//                    pickupOrderList.setSubTotal(ds.child("subTotal").getValue(String.class));
-////                    pickupOrderList.setKey((ds.getKey()));
-//
-//
-//                    pickupOrderLists.add(pickupOrderList);
-//                }
-//
-//                onRealTimeDbTaskComplete.onSuccess(pickupOrderLists);
+
+                List<PickupOrderList> pendingOrderListList = new ArrayList<>();
+
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+
+                        databaseReference.child(ds.getKey()).orderByChild("status").equalTo("ToShip").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                                for (DataSnapshot ds2 : snapshot.getChildren()) {
+                                    PickupOrderList pickupOrderList = new PickupOrderList();
+
+                                    pickupOrderList.setAddress(ds2.child("address").getValue(String.class));
+
+                                    pickupOrderList.setStatus(ds2.child("status").getValue(String.class));
+                                    pickupOrderList.setToken(ds2.child("token").getValue(String.class));
+                                    pickupOrderList.setPaymentType(ds2.child("paymentType").getValue(String.class));
+                                    pickupOrderList.setEvidence(ds2.child("evidence").getValue(String.class));
+                                    pickupOrderList.setWaitingTime(ds2.child("waitingTime").getValue(String.class));
+                                    pickupOrderList.setTotal(ds2.child("subTotal").getValue(String.class));
+                                    pickupOrderList.setUserId(ds.getKey());
+                                    pickupOrderList.setOrderId(ds2.getKey());
+                                    if(!ds2.child("riderId").getValue(String.class).isEmpty()){
+                                        pickupOrderList.setRiderId(ds2.child("riderId").getValue(String.class));
+                                    }
+
+
+
+                                    pendingOrderListList.add(pickupOrderList);
+                                    System.out.println("Order pickup id ===== " + pickupOrderList.getOrderId());
+                                    System.out.println("Order pick rider id===== " + pickupOrderList.getRiderId());
+                                }
+                                System.out.println("order pickup list ===" + pendingOrderListList.size());
+                                onRealTimeDbTaskComplete.onSuccessPickup(pendingOrderListList);
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                onRealTimeDbTaskComplete.onFailure(error);
+                                throw error.toException();
+                            }
+                        });
+
+                    }
+
             }
 
             @Override
@@ -85,6 +112,11 @@ public class FirebaseRepo {
                                 pendingOrderList.setStatus(ds2.child("status").getValue(String.class));
                                 pendingOrderList.setSubTotal(ds2.child("subTotal").getValue(String.class));
                                 pendingOrderList.setToken(ds2.child("token").getValue(String.class));
+                                pendingOrderList.setRiderId(ds2.child("riderId").getValue(String.class));
+                                pendingOrderList.setRiderMobile(ds2.child("riderMobile").getValue(String.class));
+                                pendingOrderList.setRiderName(ds2.child("riderName").getValue(String.class));
+                                pendingOrderList.setEvidence(ds2.child("evidence").getValue(String.class));
+                                pendingOrderList.setWaitingTime(ds2.child("waitingTime").getValue(String.class));
                                 pendingOrderList.setOrderKey((ds2.getKey()));
                                 pendingOrderList.setUserId(ds.getKey());
 
@@ -123,6 +155,8 @@ public class FirebaseRepo {
     public interface OnRealTimeDbTaskComplete{
 
         void onSuccess(List<PickupOrderList> pickupOrderLists);
+
+        void onSuccessPickup(List<PickupOrderList> pickupOrderLists);
         void onSuccessRider(List<PendingOrderList> pendingOrderListList);
         void onFailure(DatabaseError error);
 

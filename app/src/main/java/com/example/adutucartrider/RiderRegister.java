@@ -86,7 +86,7 @@ public class RiderRegister extends AppCompatActivity {
                 }
 
                 if(isSuccess){
-                    Rider rider = new Rider(name,email,phone,password);
+                    Rider rider = new Rider(name,email,phone,password,"0");
 
                     riderDB.riderAuth(rider).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
